@@ -40,7 +40,7 @@ const updateUser = async (req, res) => {
   try {
     const updated = await User.findByIdAndUpdate(req.user._id,
       { name, about },
-      { new: true })
+      { new: true, runValidators: true })
       .orFail(new Error('Ошибка при обновлении юзеринфо'));
     res.json({ updated });
   } catch (e) {
@@ -53,7 +53,7 @@ const updateAvatar = async (req, res) => {
   try {
     const updated = await User.findByIdAndUpdate(req.user._id,
       { avatar },
-      { new: true })
+      { new: true, runValidators: true })
       .orFail(new Error('Ошибка при обновлении аватара'));
     res.json({ updated });
   } catch (e) {

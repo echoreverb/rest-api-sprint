@@ -34,7 +34,7 @@ const likeCard = async (req, res) => {
   try {
     const updated = await Card.findByIdAndUpdate(req.params.cardId,
       { $addToSet: { likes: req.user._id } },
-      { new: true })
+      { new: true, runValidators: true })
       .orFail(new Error('Ошибка при отмене лайка'));
     res.json({ updated });
   } catch (e) {
@@ -46,7 +46,7 @@ const dislikeCard = async (req, res) => {
   try {
     const updated = await Card.findByIdAndUpdate(req.params.cardId,
       { $pull: { likes: req.user._id } },
-      { new: true })
+      { new: true, runValidators: true })
       .orFail(new Error('Ошибка при отмене лайка'));
     res.json({ updated });
   } catch (e) {
