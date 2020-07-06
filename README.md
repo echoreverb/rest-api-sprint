@@ -4,7 +4,7 @@
 
 ## Ссылка на скачивание
 
-> [v0.0.1](https://github.com/echoreverb/rest-api-sprint)
+> [v0.0.2](https://github.com/echoreverb/rest-api-sprint)
 
 ## Установка
 
