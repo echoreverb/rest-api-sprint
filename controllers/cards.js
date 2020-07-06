@@ -18,7 +18,11 @@ const createCard = async (req, res) => {
     const created = await Card.create({ name, link, owner });
     res.json({ created });
   } catch (e) {
-    res.status(500).send({ message: e.message });
+    if (e.name === 'ValidationError') {
+      res.status(400).send({ message: e.message });
+    } else {
+      res.status(500).send({ message: e.message });
+    }
   }
 };
 
