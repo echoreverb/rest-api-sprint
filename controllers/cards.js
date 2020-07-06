@@ -44,10 +44,10 @@ const likeCard = async (req, res) => {
     const updated = await Card.findByIdAndUpdate(req.params.cardId,
       { $addToSet: { likes: req.user._id } },
       { new: true, runValidators: true })
-      .orFail(new Error('Ошибка при отмене лайка'));
+      .orFail(new Error('Ошибка при простановке лайка'));
     res.json({ updated });
   } catch (e) {
-    res.status(500).send({ message: e.message });
+    res.status(404).send({ message: e.message });
   }
 };
 
@@ -59,7 +59,7 @@ const dislikeCard = async (req, res) => {
       .orFail(new Error('Ошибка при отмене лайка'));
     res.json({ updated });
   } catch (e) {
-    res.status(500).send({ message: e.message });
+    res.status(404).send({ message: e.message });
   }
 };
 
