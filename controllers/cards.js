@@ -1,16 +1,6 @@
 const mongoose = require('mongoose');
 const Card = require('../models/card');
 
-const getCards = async (req, res) => {
-  try {
-    const cards = await Card.find({})
-      .orFail(new Error('Произошла ошибка'));
-    res.json({ data: cards });
-  } catch (e) {
-    res.status(500).send({ data: e.message });
-  }
-};
-
 const createCard = async (req, res) => {
   const { name, link } = req.body;
   const owner = req.user._id;
@@ -23,6 +13,16 @@ const createCard = async (req, res) => {
     } else {
       res.status(500).send({ data: e.message });
     }
+  }
+};
+
+const getCards = async (req, res) => {
+  try {
+    const cards = await Card.find({})
+      .orFail(new Error('Произошла ошибка'));
+    res.json({ data: cards });
+  } catch (e) {
+    res.status(500).send({ data: e.message });
   }
 };
 
