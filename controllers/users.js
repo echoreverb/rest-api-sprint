@@ -5,12 +5,12 @@ const createUser = async (req, res) => {
   const { name, about, avatar } = req.body;
   try {
     const created = await User.create({ name, about, avatar });
-    res.json({ created });
+    res.json({ data: created });
   } catch (e) {
     if (e.name === 'ValidationError') {
-      res.status(400).send({ message: e.message });
+      res.status(400).send({ data: e.message });
     } else {
-      res.status(500).send({ message: e.message });
+      res.status(500).send({ data: e.message });
     }
   }
 };
@@ -19,22 +19,22 @@ const getUsers = async (req, res) => {
   try {
     const users = await User.find({})
       .orFail(new Error('Произошла ошибка'));
-    res.json({ users });
+    res.json({ data: users });
   } catch (e) {
-    res.status(500).send({ message: e.message });
+    res.status(500).send({ data: e.message });
   }
 };
 
 const getUserById = async (req, res) => {
   if (!mongoose.Types.ObjectId.isValid(req.params.userId)) {
-    res.status(400).send({ message: 'Некорректный userId' });
+    res.status(400).send({ data: 'Некорректный userId' });
   } else {
     try {
       const user = await User.findById(req.params.userId)
         .orFail(new Error('Не найден пользователь с таким userId'));
-      res.json({ user });
+      res.json({ data: user });
     } catch (e) {
-      res.status(404).send({ message: e.message });
+      res.status(404).send({ data: e.message });
     }
   }
 };
@@ -46,9 +46,9 @@ const updateUser = async (req, res) => {
       { name, about },
       { new: true, runValidators: true })
       .orFail(new Error('Ошибка при обновлении юзеринфо'));
-    res.json({ updated });
+    res.json({ data: updated });
   } catch (e) {
-    res.status(500).send({ message: e.message });
+    res.status(500).send({ data: e.message });
   }
 };
 
@@ -59,9 +59,9 @@ const updateAvatar = async (req, res) => {
       { avatar },
       { new: true, runValidators: true })
       .orFail(new Error('Ошибка при обновлении аватара'));
-    res.json({ updated });
+    res.json({ data: updated });
   } catch (e) {
-    res.status(500).send({ message: e.message });
+    res.status(500).send({ data: e.message });
   }
 };
 
