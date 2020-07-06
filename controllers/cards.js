@@ -29,6 +29,8 @@ const createCard = async (req, res) => {
 const deleteCard = async (req, res) => {
   if (!mongoose.Types.ObjectId.isValid(req.params.cardId)) {
     res.status(400).send({ message: 'Некорректный cardId' });
+  } else if (!(await Card.exists({ _id: req.params.cardId }))) {
+    res.status(400).send({ message: 'Карточки с таким cardId не существует' });
   } else {
     try {
       await Card.deleteOne({ _id: req.params.cardId });
