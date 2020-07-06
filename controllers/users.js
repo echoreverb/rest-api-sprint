@@ -5,11 +5,7 @@ const createUser = async (req, res) => {
   const { name, about, avatar } = req.body;
   try {
     const created = await User.create({ name, about, avatar });
-    if (created) {
-      res.json({ created });
-    } else {
-      res.status(500).send({ message: 'Ошибка при создании пользователя' });
-    }
+    res.json({ created });
   } catch (e) {
     res.status(500).send({ message: e.message });
   }

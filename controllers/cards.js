@@ -15,11 +15,7 @@ const createCard = async (req, res) => {
   const owner = req.user._id;
   try {
     const created = await Card.create({ name, link, owner });
-    if (created) {
-      res.json({ created });
-    } else {
-      res.status(500).send({ message: 'Ошибка при создании карточки' });
-    }
+    res.json({ created });
   } catch (e) {
     res.status(500).send({ message: e.message });
   }
