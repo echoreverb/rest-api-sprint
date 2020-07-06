@@ -1,3 +1,4 @@
+const mongoose = require('mongoose');
 const Card = require('../models/card');
 
 const getCards = async (req, res) => {
@@ -22,11 +23,15 @@ const createCard = async (req, res) => {
 };
 
 const deleteCard = async (req, res) => {
-  try {
-    await Card.deleteOne({ _id: req.params.cardId });
-    res.json('Карточка удалена');
-  } catch (e) {
-    res.status(500).send({ message: 'Ошибка при удалении карточки' });
+  if (!mongoose.Types.ObjectId.isValid(req.params.cardId)) {
+    res.status(400).send({ message: 'Некорректный cardId' });
+  } else {
+    try {
+      await Card.deleteOne({ _id: req.params.cardId });
+      res.json('Карточка удалена');
+    } catch (e) {
+      res.status(500).send({ message: 'Ошибка при удалении карточки' });
+    }
   }
 };
 
