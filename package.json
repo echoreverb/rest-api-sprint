@@ -1,7 +1,7 @@
 {
   "name": "sprint-13",
   "version": "0.0.2",
-  "description": "It's the 12th sprint of Yandex.Praktikum web-development course",
+  "description": "It's the 13th sprint of Yandex.Praktikum web-development course",
   "main": "app.js",
   "scripts": {
     "start": "node app",
