@@ -1,7 +1,7 @@
 {
-  "name": "sprint-12",
-  "version": "1.0.0",
-  "description": "It's the 12th sprint of Yandex.Praktikum web-development course",
+  "name": "sprint-13",
+  "version": "0.0.4",
+  "description": "It's the 13th sprint of Yandex.Praktikum web-development course",
   "main": "app.js",
   "scripts": {
     "start": "node app",
@@ -16,6 +16,9 @@
     "nodemon": "^2.0.4"
   },
   "dependencies": {
-    "express": "^4.17.1"
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1",
+    "mongoose": "^5.9.21",
+    "validator": "^13.1.1"
   }
 }
