@@ -9,9 +9,9 @@ const createCard = async (req, res) => {
     res.json({ data: created });
   } catch (e) {
     if (e.name === 'ValidationError') {
-      res.status(400).send({ data: e.message });
+      res.status(400).send({ message: e.message });
     } else {
-      res.status(500).send({ data: e.message });
+      res.status(500).send({ message: e.message });
     }
   }
 };
@@ -22,21 +22,21 @@ const getCards = async (req, res) => {
       .orFail(new Error('Произошла ошибка'));
     res.json({ data: cards });
   } catch (e) {
-    res.status(500).send({ data: e.message });
+    res.status(500).send({ message: e.message });
   }
 };
 
 const deleteCard = async (req, res) => {
   if (!mongoose.Types.ObjectId.isValid(req.params.cardId)) {
-    res.status(400).send({ data: 'Некорректный cardId' });
+    res.status(400).send({ message: 'Некорректный cardId' });
   } else if (!(await Card.exists({ _id: req.params.cardId }))) {
-    res.status(400).send({ data: 'Карточки с таким cardId не существует' });
+    res.status(400).send({ message: 'Карточки с таким cardId не существует' });
   } else {
     try {
       await Card.deleteOne({ _id: req.params.cardId });
       res.json({ data: 'Карточка удалена' });
     } catch (e) {
-      res.status(500).send({ data: 'Ошибка при удалении карточки' });
+      res.status(500).send({ message: 'Ошибка при удалении карточки' });
     }
   }
 };
@@ -49,7 +49,7 @@ const likeCard = async (req, res) => {
       .orFail(new Error('Ошибка при простановке лайка'));
     res.json({ data: updated });
   } catch (e) {
-    res.status(404).send({ data: e.message });
+    res.status(404).send({ message: e.message });
   }
 };
 
@@ -61,7 +61,7 @@ const dislikeCard = async (req, res) => {
       .orFail(new Error('Ошибка при отмене лайка'));
     res.json({ data: updated });
   } catch (e) {
-    res.status(404).send({ data: e.message });
+    res.status(404).send({ message: e.message });
   }
 };
 

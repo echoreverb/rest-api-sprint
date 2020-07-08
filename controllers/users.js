@@ -8,9 +8,9 @@ const createUser = async (req, res) => {
     res.json({ data: created });
   } catch (e) {
     if (e.name === 'ValidationError') {
-      res.status(400).send({ data: e.message });
+      res.status(400).send({ message: e.message });
     } else {
-      res.status(500).send({ data: e.message });
+      res.status(500).send({ message: e.message });
     }
   }
 };
@@ -21,7 +21,7 @@ const getUsers = async (req, res) => {
       .orFail(new Error('Произошла ошибка'));
     res.json({ data: users });
   } catch (e) {
-    res.status(500).send({ data: e.message });
+    res.status(500).send({ message: e.message });
   }
 };
 
@@ -34,7 +34,7 @@ const getUserById = async (req, res) => {
         .orFail(new Error('Не найден пользователь с таким userId'));
       res.json({ data: user });
     } catch (e) {
-      res.status(404).send({ data: e.message });
+      res.status(404).send({ message: e.message });
     }
   }
 };
@@ -48,7 +48,7 @@ const updateUser = async (req, res) => {
       .orFail(new Error('Ошибка при обновлении юзеринфо'));
     res.json({ data: updated });
   } catch (e) {
-    res.status(500).send({ data: e.message });
+    res.status(500).send({ message: e.message });
   }
 };
 
@@ -61,7 +61,7 @@ const updateAvatar = async (req, res) => {
       .orFail(new Error('Ошибка при обновлении аватара'));
     res.json({ data: updated });
   } catch (e) {
-    res.status(500).send({ data: e.message });
+    res.status(500).send({ message: e.message });
   }
 };
 
