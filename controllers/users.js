@@ -53,9 +53,13 @@ const updateUser = async (req, res) => {
     const updated = await User.findByIdAndUpdate(req.user._id,
       { name, about },
       { new: true, runValidators: true })
-      .orFail(new Error('Ошибка при обновлении юзеринфо'));
+      .orFail();
     res.json({ data: updated });
   } catch (e) {
+    if (e.name === 'ValidationError') {
+      res.status(400).send({ message: e.message });
+      return;
+    }
     res.status(500).send({ message: e.message });
   }
 };
@@ -66,9 +70,13 @@ const updateAvatar = async (req, res) => {
     const updated = await User.findByIdAndUpdate(req.user._id,
       { avatar },
       { new: true, runValidators: true })
-      .orFail(new Error('Ошибка при обновлении аватара'));
+      .orFail();
     res.json({ data: updated });
   } catch (e) {
+    if (e.name === 'ValidationError') {
+      res.status(400).send({ message: e.message });
+      return;
+    }
     res.status(500).send({ message: e.message });
   }
 };
