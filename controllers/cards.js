@@ -59,7 +59,7 @@ const likeCard = async (req, res) => {
       res.status(404).send({ message: 'Не найдена карточка' });
       return;
     }
-    if (e.name === 'CastError' || e.name === 'ValidationError') {
+    if (e.name === 'ValidationError') {
       res.status(400).send({ message: e.message });
       return;
     }
@@ -79,7 +79,7 @@ const dislikeCard = async (req, res) => {
       res.status(404).send({ message: 'Не найдена карточка' });
       return;
     }
-    if (e.name === 'CastError' || e.name === 'ValidationError') {
+    if (e.name === 'ValidationError') {
       res.status(400).send({ message: e.message });
       return;
     }
