@@ -4,13 +4,13 @@ const validatorCheck = require('validator');
 const cardSchema = new mongoose.Schema({
   name: {
     type: String,
-    required: [true, 'Это обязательное поле'],
-    minlength: [2, 'Количество символов от 2 до 30'],
-    maxlength: [30, 'Количество символов от 2 до 30'],
+    required: true,
+    minlength: 2,
+    maxlength: 30,
   },
   link: {
     type: String,
-    required: [true, 'Это обязательное поле'],
+    required: true,
     validate: {
       validator(v) {
         return validatorCheck.isURL(v);
@@ -21,7 +21,7 @@ const cardSchema = new mongoose.Schema({
   owner: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'user',
-    required: [true, 'Это обязательное поле'],
+    required: true,
   },
   likes: {
     type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'user' }],
