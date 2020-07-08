@@ -10,18 +10,22 @@ const createCard = async (req, res) => {
   } catch (e) {
     if (e.name === 'ValidationError') {
       res.status(400).send({ message: e.message });
-    } else {
-      res.status(500).send({ message: e.message });
+      return;
     }
+    res.status(500).send({ message: e.message });
   }
 };
 
 const getCards = async (req, res) => {
   try {
     const cards = await Card.find({})
-      .orFail(new Error('Произошла ошибка'));
+      .orFail();
     res.json({ data: cards });
   } catch (e) {
+    if (e.name === 'DocumentNotFoundError') {
+      res.json({ data: [] });
+      return;
+    }
     res.status(500).send({ message: e.message });
   }
 };
@@ -48,10 +52,18 @@ const likeCard = async (req, res) => {
     const updated = await Card.findByIdAndUpdate(req.params.cardId,
       { $addToSet: { likes: req.user._id } },
       { new: true, runValidators: true })
-      .orFail(new Error('Ошибка при простановке лайка'));
+      .orFail();
     res.json({ data: updated });
   } catch (e) {
-    res.status(404).send({ message: e.message });
+    if (e.name === 'DocumentNotFoundError') {
+      res.status(404).send({ message: 'Не найдена карточка' });
+      return;
+    }
+    if (e.name === 'CastError' || e.name === 'ValidationError') {
+      res.status(400).send({ message: e.message });
+      return;
+    }
+    res.status(500).send({ message: e.message });
   }
 };
 
@@ -60,10 +72,18 @@ const dislikeCard = async (req, res) => {
     const updated = await Card.findByIdAndUpdate(req.params.cardId,
       { $pull: { likes: req.user._id } },
       { new: true, runValidators: true })
-      .orFail(new Error('Ошибка при отмене лайка'));
+      .orFail();
     res.json({ data: updated });
   } catch (e) {
-    res.status(404).send({ message: e.message });
+    if (e.name === 'DocumentNotFoundError') {
+      res.status(404).send({ message: 'Не найдена карточка' });
+      return;
+    }
+    if (e.name === 'CastError' || e.name === 'ValidationError') {
+      res.status(400).send({ message: e.message });
+      return;
+    }
+    res.status(500).send({ message: e.name });
   }
 };
 

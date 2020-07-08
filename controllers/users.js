@@ -9,9 +9,9 @@ const createUser = async (req, res) => {
   } catch (e) {
     if (e.name === 'ValidationError') {
       res.status(400).send({ message: e.message });
-    } else {
-      res.status(500).send({ message: e.message });
+      return;
     }
+    res.status(500).send({ message: e.message });
   }
 };
 
@@ -27,15 +27,19 @@ const getUsers = async (req, res) => {
 
 const getUserById = async (req, res) => {
   if (!mongoose.Types.ObjectId.isValid(req.params.userId)) {
-    res.status(400).send({ data: 'Некорректный userId' });
-  } else {
-    try {
-      const user = await User.findById(req.params.userId)
-        .orFail(new Error('Не найден пользователь с таким userId'));
-      res.json({ data: user });
-    } catch (e) {
-      res.status(404).send({ message: e.message });
+    res.status(400).send({ message: 'Некорректный userId' });
+    return;
+  }
+  try {
+    const user = await User.findById(req.params.userId)
+      .orFail();
+    res.json({ data: user });
+  } catch (e) {
+    if (e.name === 'DocumentNotFoundError') {
+      res.status(404).send({ message: 'Не найден пользователь с таким userId' });
+      return;
     }
+    res.status(500).send({ message: e.message });
   }
 };
 
