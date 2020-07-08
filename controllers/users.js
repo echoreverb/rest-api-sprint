@@ -18,9 +18,13 @@ const createUser = async (req, res) => {
 const getUsers = async (req, res) => {
   try {
     const users = await User.find({})
-      .orFail(new Error('Произошла ошибка'));
+      .orFail();
     res.json({ data: users });
   } catch (e) {
+    if (e.name === 'DocumentNotFoundError') {
+      res.json({ data: [] });
+      return;
+    }
     res.status(500).send({ message: e.message });
   }
 };
