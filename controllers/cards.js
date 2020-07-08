@@ -29,15 +29,17 @@ const getCards = async (req, res) => {
 const deleteCard = async (req, res) => {
   if (!mongoose.Types.ObjectId.isValid(req.params.cardId)) {
     res.status(400).send({ message: 'Некорректный cardId' });
-  } else if (!(await Card.exists({ _id: req.params.cardId }))) {
-    res.status(400).send({ message: 'Карточки с таким cardId не существует' });
-  } else {
-    try {
-      await Card.deleteOne({ _id: req.params.cardId });
-      res.json({ data: 'Карточка удалена' });
-    } catch (e) {
-      res.status(500).send({ message: 'Ошибка при удалении карточки' });
+    return;
+  }
+  try {
+    const deleted = await Card.deleteOne({ _id: req.params.cardId });
+    if (deleted.deletedCount === 0) {
+      res.status(404).send({ message: 'Карточки с таким cardId не существует' });
+      return;
     }
+    res.json({ message: 'Карточка удалена' });
+  } catch (e) {
+    res.status(500).send({ message: 'Ошибка при удалении карточки' });
   }
 };
 
